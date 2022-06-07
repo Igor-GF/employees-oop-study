@@ -26,8 +26,8 @@ public class Main {
         Pattern peoplePat = Pattern.compile(peopleRegex);
         Matcher peopleMat = peoplePat.matcher(peopleText);
 
-        String performRegex = "\\w+\\=(?<locpd>\\w+), \\w+\\=(?<yoe>\\w+), \\w+\\=(?<iq>\\w+)";
-        Pattern performPat = Pattern.compile(performRegex);
+        String progRegex = "\\w+\\=(?<locpd>\\w+), \\w+\\=(?<yoe>\\w+), \\w+\\=(?<iq>\\w+)";
+        Pattern progPat = Pattern.compile(progRegex);
 
         String mgrRegex = "\\w+\\=(?<orgSize>\\w+), \\w+\\=(?<dr>\\w+)";
         Pattern mgrPat = Pattern.compile(mgrRegex);
@@ -44,19 +44,9 @@ public class Main {
 
             totalSalaries += switch (peopleMat.group("role")) {
                 case "Programmer" -> {
-                    String details = peopleMat.group("details");
-                    Matcher performMat = performPat.matcher(details);
-                    int salary = 0;
-                    if (performMat.find()) {
-                        int locpd = Integer.parseInt(performMat.group("locpd"));
-                        int yoe = Integer.parseInt(performMat.group("yoe"));
-                        int iq = Integer.parseInt(performMat.group("iq"));
-                        System.out.printf("Programmer loc: %s yoe: %s iq: %s%n", locpd, yoe, iq);
-                        salary = 300 + locpd + yoe + iq;
-                    } else {
-                        salary = 3000;
-                    }
-                    yield salary;
+                    Programmer programmer = new Programmer(peopleMat.group());
+                    System.out.println(programmer);
+                    yield programmer.getSalary();
                 }
                 case "Manager" -> {
                     String details = peopleMat.group("details");
@@ -65,11 +55,13 @@ public class Main {
                     if (mgrMat.find()) {
                         int orgSize = Integer.parseInt(mgrMat.group("orgSize"));
                         int dr = Integer.parseInt(mgrMat.group("dr"));
-                        System.out.printf("Manager orgSize: %s dr: %s%n", orgSize, dr);
                         salary = 3500 + orgSize + dr;
                     } else {
                         salary = 3500;
                     }
+                    String lastName = peopleMat.group("lastName");
+                    String firstName = peopleMat.group("firstName");
+                    System.out.printf("%s, %s: %s%n", lastName, firstName, NumberFormat.getCurrencyInstance().format(salary));
                     yield salary;
                 }
                 case "Analyst" -> {
@@ -78,11 +70,13 @@ public class Main {
                     int salary = 0;
                     if (analystMat.find()) {
                         int projectCount = Integer.parseInt(analystMat.group("projectCount"));
-                        System.out.printf("Analyst projectCount: %s%n", projectCount);
                         salary = 2500 + projectCount;
                     } else {
                         salary = 2500;
                     }
+                    String lastName = peopleMat.group("lastName");
+                    String firstName = peopleMat.group("firstName");
+                    System.out.printf("%s, %s: %s%n", lastName, firstName, NumberFormat.getCurrencyInstance().format(salary));
                     yield salary;
                 }
                 case "CEO" -> {
@@ -91,11 +85,13 @@ public class Main {
                     int salary = 0;
                     if (ceoMat.find()) {
                         int avgStockPrice = Integer.parseInt(ceoMat.group("avgStockPrice"));
-                        System.out.printf("CEO avgStockPrice: %s%n", avgStockPrice);
-                        salary = 5000 + avgStockPrice;
+                         salary = 5000 * avgStockPrice;
                     } else {
                         salary = 5000;
                     }
+                    String lastName = peopleMat.group("lastName");
+                    String firstName = peopleMat.group("firstName");
+                    System.out.printf("%s, %s: %s%n", lastName, firstName, NumberFormat.getCurrencyInstance().format(salary));
                     yield salary;
                 }
                 default -> {
