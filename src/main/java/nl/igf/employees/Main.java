@@ -54,19 +54,9 @@ public class Main {
                     yield manager.getSalary();
                 }
                 case "Analyst" -> {
-                    String details = peopleMat.group("details");
-                    Matcher analystMat = analystPat.matcher(details);
-                    int salary = 0;
-                    if (analystMat.find()) {
-                        int projectCount = Integer.parseInt(analystMat.group("projectCount"));
-                        salary = 2500 + projectCount;
-                    } else {
-                        salary = 2500;
-                    }
-                    String lastName = peopleMat.group("lastName");
-                    String firstName = peopleMat.group("firstName");
-                    System.out.printf("%s, %s: %s%n", lastName, firstName, NumberFormat.getCurrencyInstance().format(salary));
-                    yield salary;
+                    Analyst analyst = new Analyst(peopleMat.group());
+                    System.out.println(analyst);
+                    yield analyst.getSalary();
                 }
                 case "CEO" -> {
                     String details = peopleMat.group("details");
