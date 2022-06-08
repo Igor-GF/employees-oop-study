@@ -59,19 +59,9 @@ public class Main {
                     yield analyst.getSalary();
                 }
                 case "CEO" -> {
-                    String details = peopleMat.group("details");
-                    Matcher ceoMat = ceoPat.matcher(details);
-                    int salary = 0;
-                    if (ceoMat.find()) {
-                        int avgStockPrice = Integer.parseInt(ceoMat.group("avgStockPrice"));
-                         salary = 5000 * avgStockPrice;
-                    } else {
-                        salary = 5000;
-                    }
-                    String lastName = peopleMat.group("lastName");
-                    String firstName = peopleMat.group("firstName");
-                    System.out.printf("%s, %s: %s%n", lastName, firstName, NumberFormat.getCurrencyInstance().format(salary));
-                    yield salary;
+                    Ceo CEO = new Ceo(peopleMat.group());
+                    System.out.println(CEO);
+                    yield CEO.getSalary();
                 }
                 default -> {
                     yield 0;

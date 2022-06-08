@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Analyst  {
-
     private int projectCount;
     private String lastName;
     private String firstName;
