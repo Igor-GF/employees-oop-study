@@ -31,7 +31,7 @@ public abstract class Employee {
         }
     }
 
-    public static final Employee createEmployee(String employeeText) {
+    public static final IEmployee createEmployee(String employeeText) {
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(employeeText);
         if (peopleMat.find()) {
             return switch (peopleMat.group("role")) {
@@ -39,7 +39,8 @@ public abstract class Employee {
                 case "Manager" -> new Manager(employeeText);
                 case "Analyst" -> new Analyst(employeeText);
                 case "CEO" -> new Ceo(employeeText);
-                default -> new DummyEmployee();
+                // Lambdas () -> looks for a class/interface/method which does not take any parameter and returns an integer
+                default -> () -> 0;
             };
         } else {
             return new DummyEmployee();
@@ -57,7 +58,7 @@ public abstract class Employee {
         return String.format("%s, %s: %s Bonus: %s", lastName, firstName, moneyFormat.format(this.getSalary()), moneyFormat.format(this.getBonus()));
     }
 
-    private static final class DummyEmployee extends Employee {
+    private static final class DummyEmployee extends Employee implements IEmployee {
 
         public int getSalary() {
             return 0;
