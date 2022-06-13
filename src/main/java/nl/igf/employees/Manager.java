@@ -3,7 +3,7 @@ package nl.igf.employees;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Manager extends Employee {
+public class Manager extends Employee implements IEmployee {
     private int directReports;
     private int orgSize;
     private final String mgrRegex = "\\w+\\=(?<orgSize>\\w+), \\w+\\=(?<dr>\\w+)";

@@ -30,7 +30,7 @@ public class Main {
         Matcher peopleMat = peoplePat.matcher(peopleText);
 
         int totalSalaries = 0;
-        Employee employee = null;
+        IEmployee employee = null;
 
         while (peopleMat.find()) {
 
@@ -39,7 +39,7 @@ public class Main {
                 case "Manager" -> new Manager(peopleMat.group());
                 case "Analyst" -> new Analyst(peopleMat.group());
                 case "CEO" -> new Ceo(peopleMat.group());
-                default -> null;
+                default -> new NoEmployee();
             };
             System.out.println(employee.toString());
             totalSalaries += employee.getSalary();

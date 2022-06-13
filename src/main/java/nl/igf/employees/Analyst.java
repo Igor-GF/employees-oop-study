@@ -3,9 +3,8 @@ package nl.igf.employees;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Analyst extends Employee {
+public class Analyst extends Employee implements IEmployee {
     private int projectCount;
-
     private final String analystRegex = "\\w+\\=(?<projectCount>\\w+)";
     private final Pattern analystPat = Pattern.compile(analystRegex);
 

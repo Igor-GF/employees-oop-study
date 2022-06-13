@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Employee {
+public abstract class Employee {
     protected final DateTimeFormatter dtFormater = DateTimeFormatter.ofPattern("M/d/yyyy");
     private final String peopleRegex = "(?<lastName>\\w+),\\s*(?<firstName>\\w+),\\s*(?<dob>\\d{1,2}/\\d{1,2}/\\d{4}),\\s*(?<role>\\w*),\\s*\\{(?<details>.*)\\}\\n";
     protected final Pattern peoplePat = Pattern.compile(peopleRegex);
@@ -25,12 +25,14 @@ public class Employee {
         }
     }
 
-    int getSalary() {
-        return 0;
-    };
+    public abstract int getSalary();
+
+    public double getBonus() {
+        return getSalary() * 1.1;
+    }
 
     @Override
     public String toString() {
-        return String.format("%s, %s: %s", lastName, firstName, moneyFormat.format(this.getSalary()));
+        return String.format("%s, %s: %s Bonus: %s", lastName, firstName, moneyFormat.format(this.getSalary()), moneyFormat.format(this.getBonus()));
     }
 }

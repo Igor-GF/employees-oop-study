@@ -3,9 +3,8 @@ package nl.igf.employees;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Ceo extends Employee {
+public class Ceo extends Employee implements IEmployee {
     private int avgStockPrice;
-
     private final String ceoRegex = "\\w+\\=(?<avgStockPrice>\\w+)";
     private final Pattern ceoPat = Pattern.compile(ceoRegex);
 
