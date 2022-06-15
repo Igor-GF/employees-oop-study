@@ -1,13 +1,17 @@
 package nl.igf.employees;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 
 public class Main {
     public static void main(String[] args) {
         String peopleText = """
             Flinstone, Fred, 1/1/1900, Programmer, {locpd=2000, yoe=10, iq=140}
-            Flinstone2, Fred2, 1/1/1900, Programmer, {locpd=1300, yoe=14, iq=100}
+            Flinstone2, Fred2, 1/1/1900, Programmerzz, {locpd=1300, yoe=14, iq=100}
             Flinstone3, Fred3, 1/1/1900, Programmer, {locpd=2300, yoe=8, iq=105}
             Flinstone4, Fred4, 1/1/1900, Programmer, {locpd=1630, yoe=3, iq=115}
             Flinstone5, Fred5, 1/1/1900, Programmer, {locpd=5, yoe=10, iq=100}
@@ -20,25 +24,48 @@ public class Main {
             Flinstone2, Wilma2, 3/3/1910, Analyst, {projectCount=4}
             Flinstone3, Wilma3, 3/3/1910, Analyst, {projectCount=5}
             Flinstone4, Wilma4, 3/3/1910, Analyst, {projectCount=6}
-            Flinstone5, Wilma5, 3/3/1910, Analystxxx, {projectCount=9}
+            Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}
             Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
             """;
 
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(peopleText);
-        Flyer flyer = new Ceo("");
-        Programmer coder = new Programmer("");
-        coder.cook("ananas");
 
         int totalSalaries = 0;
         IEmployee employee = null;
+        List<IEmployee> employees = new LinkedList<>();
 
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
-            System.out.println(employee.toString());
-            totalSalaries += employee.getSalary();
+            employees.add(employee);
         }
+
+        List<String> removalNames = new ArrayList<>();
+        removalNames.add("Wilma5");
+        removalNames.add("Barney4");
+        removalNames.add("Fred2");
+
+        // to make changes like removing while iterating through the collection
+        removeUndesirables(employees, removalNames);
+
+        for (IEmployee worker : employees) {
+            System.out.println(worker.toString());
+            totalSalaries += worker.getSalary();
+        }
+
         NumberFormat currencyInstance = NumberFormat.getCurrencyInstance();
 
         System.out.printf("The total should be %s%n", currencyInstance.format(totalSalaries));
+    }
+
+    private static void removeUndesirables(List<IEmployee> employees, List<String> removalNames) {
+        for (Iterator<IEmployee> it = employees.iterator(); it.hasNext();) {
+            IEmployee worker = it.next();
+            if (worker instanceof Employee) {
+                Employee tmpWorker = (Employee) worker;
+                if (removalNames.contains(tmpWorker.firstName)) {
+                    it.remove();
+                }
+            }
+        }
     }
 }
