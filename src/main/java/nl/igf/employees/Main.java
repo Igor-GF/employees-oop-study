@@ -32,20 +32,33 @@ public class Main {
 
         int totalSalaries = 0;
         IEmployee employee = null;
-        List<IEmployee> employees = new LinkedList<>();
+        List<IEmployee> employees = new ArrayList<>(17);
 
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
             employees.add(employee);
         }
 
-        List<String> removalNames = new ArrayList<>();
-        removalNames.add("Wilma5");
-        removalNames.add("Barney4");
-        removalNames.add("Fred2");
+        // Miscellaneous practice for collections
+        employees.remove(0);
+        employees.add(0, Employee.createEmployee("Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}"));
+        employees.set(2, Employee.createEmployee("Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}"));
+
+        List<IEmployee> newSubList = employees.subList(5, 7);
+        System.out.println(newSubList);
+
+        List<String> undesirables  = List.of("Wilma5", "Barney4", "Fred2");
+//        List<String> undesirables  = new ArrayList<>();
+//        undesirables.add("Wilma5");
+//        undesirables.add("Barney4");
+//        undesirables.add("Fred2");
+
+        List<String> newStrings = new ArrayList<>();
+        newStrings.addAll(undesirables);
+        System.out.println("New list created by adding undesirables list: " + newStrings);
 
         // to make changes like removing while iterating through the collection
-        removeUndesirables(employees, removalNames);
+        removeUndesirables(employees, undesirables);
 
         for (IEmployee worker : employees) {
             System.out.println(worker.toString());
