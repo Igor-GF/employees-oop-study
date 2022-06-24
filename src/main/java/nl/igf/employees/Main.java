@@ -1,9 +1,7 @@
 package nl.igf.employees;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class Main {
@@ -35,7 +33,7 @@ public class Main {
 
         int totalSalaries = 0;
         IEmployee employee = null;
-        List<IEmployee> employees = new ArrayList<>(10);
+        Set<IEmployee> employees = new HashSet<>();
 
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
