@@ -3,6 +3,7 @@ package nl.igf.employees;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +41,7 @@ public abstract class Employee {
                 case "Analyst" -> new Analyst(employeeText);
                 case "CEO" -> new Ceo(employeeText);
                 // Lambdas () -> looks for a class/interface/method which does not take any parameter and returns an integer
-                default -> () -> 0;
+                default -> new DummyEmployee();
             };
         } else {
             return new DummyEmployee();
@@ -55,7 +56,20 @@ public abstract class Employee {
 
     @Override
     public String toString() {
-        return String.format("%s, %s: %s Bonus: %s", lastName, firstName, moneyFormat.format(this.getSalary()), moneyFormat.format(this.getBonus()));
+        return String.format("(%s) %s, %s: %s Bonus: %s", dob, lastName, firstName, moneyFormat.format(this.getSalary()), moneyFormat.format(this.getBonus()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+        Employee employee = (Employee) o;
+        return lastName.equals(employee.lastName) && firstName.equals(employee.firstName) && dob.equals(employee.dob);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lastName, firstName, dob);
     }
 
     private static final class DummyEmployee extends Employee implements IEmployee {

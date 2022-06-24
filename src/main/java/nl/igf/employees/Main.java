@@ -3,7 +3,6 @@ package nl.igf.employees;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -26,39 +25,43 @@ public class Main {
             Flinstone4, Wilma4, 3/3/1910, Analyst, {projectCount=6}
             Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}
             Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
+            Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
+            Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
+            Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
+            Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
             """;
 
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(peopleText);
 
         int totalSalaries = 0;
         IEmployee employee = null;
-        List<IEmployee> employees = new ArrayList<>(17);
+        List<IEmployee> employees = new ArrayList<>(10);
 
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
             employees.add(employee);
         }
 
-        // Miscellaneous practice for collections
-        employees.remove(0);
-        employees.add(0, Employee.createEmployee("Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}"));
-        employees.set(2, Employee.createEmployee("Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}"));
+        // ----- Miscellaneous practice for collections
+//        employees.remove(0);
+//        employees.add(0, Employee.createEmployee("Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}"));
+//        employees.set(2, Employee.createEmployee("Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}"));
+//
+//        List<IEmployee> newSubList = employees.subList(5, 7);
+//        System.out.println(newSubList);
+//
+//        List<String> undesirables  = List.of("Wilma5", "Barney4", "Fred2");
+//
+//        List<String> newStrings = new ArrayList<>();
+//        newStrings.addAll(undesirables);
+//        System.out.println("New list created by adding undesirables list: " + newStrings);
+//
+//        IEmployee newEmp = Employee.createEmployee("Doe, John, 1/1/1970, Analyst, {projectCount=9}");
+//        IEmployee newEmpTwo = Employee.createEmployee("Doe, John, 1/1/1970, Analyst, {projectCount=9}");
+//        System.out.println(newEmp.equals(newEmpTwo));
 
-        List<IEmployee> newSubList = employees.subList(5, 7);
-        System.out.println(newSubList);
-
-        List<String> undesirables  = List.of("Wilma5", "Barney4", "Fred2");
-//        List<String> undesirables  = new ArrayList<>();
-//        undesirables.add("Wilma5");
-//        undesirables.add("Barney4");
-//        undesirables.add("Fred2");
-
-        List<String> newStrings = new ArrayList<>();
-        newStrings.addAll(undesirables);
-        System.out.println("New list created by adding undesirables list: " + newStrings);
-
-        // to make changes like removing while iterating through the collection
-        removeUndesirables(employees, undesirables);
+        // ---- to make changes like removing while iterating through the collection
+//        removeUndesirables(employees, undesirables);
 
         for (IEmployee worker : employees) {
             System.out.println(worker.toString());
@@ -68,6 +71,7 @@ public class Main {
         NumberFormat currencyInstance = NumberFormat.getCurrencyInstance();
 
         System.out.printf("The total should be %s%n", currencyInstance.format(totalSalaries));
+        System.out.println(employees.size());
     }
 
     private static void removeUndesirables(List<IEmployee> employees, List<String> removalNames) {
